@@ -12,9 +12,34 @@ const server = express()
 
 const io = socketIO(server);
 
+var position = {
+  x: 200,
+  y: 200
+};
+
+
 io.on('connection', (socket) => {
-  console.log('Client connected');
-  socket.on('disconnect', () => console.log('Client disconnected'));
+  socket.emit("position", position);
+  socket.on("move", data => {
+    switch(data) {
+      case "left":
+        position.x -= 5;
+        Socketio.emit("position", position);
+        break;
+      case "right":
+        position.x += 5;
+        Socketio.emit("position", position);
+        break;
+      case "up":
+        position.y -= 5;
+        Socketio.emit("position", position);
+        break;
+      case "down":
+        position.y += 5;
+        Socketio.emit("position", position);
+        break;
+    }
+  });
 });
 
 setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
