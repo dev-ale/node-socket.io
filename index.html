@@ -4,31 +4,26 @@
     <script>
       let socket = io();
 
-      socket: {};
       context: {};
       let position: {
         x: 0,
         y: 0
       };
 
-      this.context = this.$refs.game.getContext("2d");
-      this.socket.on("position", data => {
-        this.position = data;
-        this.context.clearRect(0,0, this.$refs.game.width, this.$refs.game.height);
-        this.context.fillRect(this.position.x, this.position.y, 20, 20);
+      context = this.$refs.game.getContext("2d");
+      socket.on("position", data => {
+        position = data;
+        context.clearRect(0,0, this.$refs.game.width, this.$refs.game.height);
+        context.fillRect(this.position.x, this.position.y, 20, 20);
       });
 
       function move (direction) {
-        this.socket.emit("move", direction);
+        socket.emit("move", direction);
       }
-/*
-      socket.on('time', (timeString) => {
-        el = document.getElementById('server-time');
-        el.innerHTML = 'Server time: ' + timeString;
-      });
 
- */
     </script>
+
+
   </head>
   <body>
     <h1>BlockGame</h1>
