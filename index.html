@@ -13,10 +13,14 @@
 
       this.context = this.$refs.game.getContext("2d");
       this.socket.on("position", data => {
-      this.position = data;
-      this.context.clearRect(0,0, this.$refs.game.width, this.$refs.game.height);
-      this.context.fillRect(this.position.x, this.position.y, 20, 20);
+        this.position = data;
+        this.context.clearRect(0,0, this.$refs.game.width, this.$refs.game.height);
+        this.context.fillRect(this.position.x, this.position.y, 20, 20);
       });
+
+      function move (direction) {
+        this.socket.emit("move", direction);
+      }
 /*
       socket.on('time', (timeString) => {
         el = document.getElementById('server-time');
@@ -36,10 +40,10 @@
             style="border: 1px solid black">
     </canvas>
     <p>
-      <button onclick="">Right</button>
-      <button onclick="">Left</button>
-      <button onclick="">Up</button>
-      <button onclick="">Down</button>
+      <button onclick="move('right')">Right</button>
+      <button onclick="move('left')">Left</button>
+      <button onclick="move('up')">Up</button>
+      <button onclick="move('down')">Down</button>
     </p>
   </body>
 </html>
